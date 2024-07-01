@@ -1,6 +1,6 @@
 const { Client, IntentsBitField, EmbedBuilder } = require('discord.js');
 
-const TOKEN = 'process.env.TOKEN_BOT';
+const TOKEN = process.env.TOKEN_BOT;
 const serverId = process.env.SERVER_ID;
 const welcomeChannelId = process.env.WELCOME_CHANNEL_ID;
 
