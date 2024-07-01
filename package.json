@@ -1,12 +1,12 @@
 {
-  "name": "DiscordWelcomer",
+  "name": "DiscordWelcomerBot",
   "version": "1.0.0",
   "description": "A simple Discord bot made with Discord.js",
-  "main": "index.js",
+  "main": "Index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node Index.js"
   },
   "dependencies": {
-    "discord.js": "^14.15.3"
+    "discord.js": "^13.5.0"
   }
 }
