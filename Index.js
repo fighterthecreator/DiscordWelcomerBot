@@ -1,8 +1,6 @@
-const { Client, EmbedBuilder } = require('discord.js');
+require('dotenv').config();
 
-const TOKEN = process.env.TOKEN_BOT;
-const serverId = process.env.SERVER_ID;
-const welcomeChannelId = process.env.WELCOME_CHANNEL_ID;
+const { Client, EmbedBuilder } = require('discord.js');
 
 const client = new Client({
   intents: [
@@ -18,7 +16,7 @@ client.on('ready', () => {
 
 client.on('guildMemberAdd', (member) => {
   const guild = member.guild;
-  const welcomeChannel = guild.channels.cache.get(welcomeChannelId);
+  const welcomeChannel = guild.channels.cache.get('welcome-channel-id');
   if (!welcomeChannel) return;
 
   const memberCount = guild.memberCount;
@@ -38,4 +36,4 @@ client.on('guildMemberAdd', (member) => {
   welcomeChannel.send({ embeds: [embed] });
 });
 
-client.login(TOKEN);
+client.login(process.env.TOKEN);
