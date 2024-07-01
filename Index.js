@@ -8,32 +8,33 @@ const client = new Client({ intents: [IntentsBitField.Flags.Guilds, IntentsBitFi
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
-  
-  setTimeout(() => {
-    const guild = client.guilds.cache.get(serverId);
-    if (!guild) return;
-    
-    const welcomeChannel = guild.channels.cache.get(welcomeChannelId);
-    if (!welcomeChannel) return;
-    
-    client.on('guildMemberAdd', (member) => {
-      const memberCount = guild.memberCount;
-      const embed = new EmbedBuilder()
-        .setColor('#000000')
-        .setTitle(`Welcome to the server, ${member.user.username}!`)
-        .setDescription(`We're glad you're here.`)
-        .setThumbnail(member.user.displayAvatarURL())
-        .addFields(
-          { name: 'Username:', value: member.user.username },
-          { name: 'Joined:', value: member.joinedAt.toLocaleDateString(), inline: true },
-          { name: 'Time Joined:', value: member.joinedAt.toLocaleTimeString(), inline: true },
-          { name: 'Account Created:', value: member.user.createdAt.toLocaleDateString(), inline: true },
-          { name: 'Member #:', value: memberCount.toString() }
-        );
+});
 
-      welcomeChannel.send({ embeds: [embed] });
-    });
-  }, 5000);
+client.on('guildAvailable', () => {
+  client.guilds.cache.forEach((guild) => {
+    if (guild.id === serverId) {
+      const welcomeChannel = guild.channels.cache.get(welcomeChannelId);
+      if (welcomeChannel) {
+        client.on('guildMemberAdd', (member) => {
+          const memberCount = guild.memberCount;
+          const embed = new EmbedBuilder()
+            .setColor('#000000')
+            .setTitle(`Welcome to the server, ${member.user.username}!`)
+            .setDescription(`We're glad you're here.`)
+            .setThumbnail(member.user.displayAvatarURL())
+            .addFields(
+              { name: 'Username:', value: member.user.username },
+              { name: 'Joined:', value: member.joinedAt.toLocaleDateString(), inline: true },
+              { name: 'Time Joined:', value: member.joinedAt.toLocaleTimeString(), inline: true },
+              { name: 'Account Created:', value: member.user.createdAt.toLocaleDateString(), inline: true },
+              { name: 'Member #:', value: memberCount.toString() }
+            );
+
+          welcomeChannel.send({ embeds: [embed] });
+        });
+      }
+    }
+  });
 });
 
 client.login(TOKEN);
